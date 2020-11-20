@@ -17,4 +17,5 @@ contract Property is Ownable {
         string dateOfConstruction;
         boolean onsale;
     }   
+    
 }
