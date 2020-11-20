@@ -16,6 +16,5 @@ contract Property is Ownable {
         uint rooms;
         string dateOfConstruction;
         boolean onsale;
-    }
-    
+    }   
 }
