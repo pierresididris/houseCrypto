@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.21 <0.7.0;
-
+pragma solidity >=0.5.16;
 /**
  * @title SafeMath
  * @dev Math operations with safety checks that throw on error
  */
+ 
 library SafeMath {
 
   /**

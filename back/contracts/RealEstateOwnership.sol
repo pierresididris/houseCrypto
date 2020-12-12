@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.21 <0.7.0;
+pragma solidity >=0.5.16;
 
 import "./erc721.sol";
 import "./Safemath.sol";
+import "./Marketplace.sol";
+
 
 contract RealEstateOwnership is Marketplace, ERC721 {
 
@@ -22,7 +24,7 @@ contract RealEstateOwnership is Marketplace, ERC721 {
     ownerRealEstateCount[_to] = ownerRealEstateCount[_to].add(1);
     ownerRealEstateCount[msg.sender] = ownerRealEstateCount[msg.sender].sub(1);
     realEstateToOwner[_tokenId] = _to;
-    Transfer(_from, _to, _tokenId);
+    emit Transfer(_from, _to, _tokenId);
   }
 
   function transfer(address _to, uint256 _tokenId) public onlyOwnerOf(_tokenId) {
@@ -31,7 +33,7 @@ contract RealEstateOwnership is Marketplace, ERC721 {
 
   function approve(address _to, uint256 _tokenId) public onlyOwnerOf(_tokenId) {
     realEstateApprovals[_tokenId] = _to;
-    Approval(msg.sender, _to, _tokenId);
+    emit Approval(msg.sender, _to, _tokenId);
   }
 
   function takeOwnership(uint256 _tokenId) public {

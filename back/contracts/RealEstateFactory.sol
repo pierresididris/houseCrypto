@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.21 <0.7.0;
+pragma solidity >=0.5.16;
 
 import "./Ownable.sol";
 import "./Safemath.sol";
@@ -8,16 +8,19 @@ contract RealEstateFactory is Ownable {
 
   using SafeMath for uint256;
 
+  modifier onlyOwnerOf(uint _realEstateId) {
+        require(msg.sender == realEstateToOwner[_realEstateId]);
+        _;
+    }
+
   event NewRealEstate(uint realEstateId, string productName, uint price);
-
-
 
   struct RealEstate {
     string productName;
     string productAddress;
     string sellingDate;
     uint price;
-    boolean onsale;
+    bool onsale;
   }
 
   RealEstate[] public realEstates;
@@ -26,11 +29,11 @@ contract RealEstateFactory is Ownable {
   mapping (address => uint) ownerRealEstateCount;
 
 
-  function createRealEstate(string productName, string productAddress, string sellingDate, uint price, boolean onsale) public {
-    realEstates.push(Property(productName, productAddress, sellingDate, price, onsale));
-    uint id = realEstates.lenght + 1;
+  function createRealEstate(string memory productName, string memory productAddress, string memory sellingDate, uint price, bool onsale) public {
+    realEstates.push(RealEstate(productName, productAddress, sellingDate, price, onsale));
+    uint id = realEstates.length + 1;
     realEstateToOwner[id] = msg.sender;
-    ownerRealEstateCount[msg.sender] = = ownerRealEstateCount[msg.sender].add(1);
+    ownerRealEstateCount[msg.sender] = ownerRealEstateCount[msg.sender].add(1);
   }
 
 }
