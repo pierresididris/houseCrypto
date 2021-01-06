@@ -6,6 +6,7 @@ import Navbar from './Navbar'
 import Main from './Main'
 
 
+
 class App extends Component {
 
   async componentWillMount() {
@@ -13,18 +14,18 @@ class App extends Component {
     await this.loadBlockchainData()
   }
 
-  async loadWeb3() {
-    if (window.ethereum) {
-      window.web3 = Web3(window.ethereum)
-      await window.ethereum.enable()
-    }
-    else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
-    }
-    else {
-      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
-    }
-  }
+  // async loadWeb3() {
+  //   if (window.ethereum) {
+  //     window.web3 = new Web3(window.ethereum)
+  //     await window.ethereum.enable()
+  //   }
+  //   else if (window.web3) {
+  //     window.web3 =  Web3(window.web3.currentProvider)
+  //   }
+  //   else {
+  //     window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+  //   }
+  // }
 
   async loadBlockchainData(){
     const web3 = window.web3
