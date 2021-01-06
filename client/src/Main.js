@@ -9,7 +9,7 @@ class Main extends Component {
         <form onSubmit={(event) => {
           event.preventDefault()
           const name = this.productName.value
-          const price = window.web3.utils.toWei(this.productPrice.value.toString(), 'Ether')
+          const price = window.web3.toWei(this.productPrice.value.toString(), 'Ether')
           this.props.createProduct(name, price)
         }}>
           <div className="form-group mr-sm-2">
@@ -50,11 +50,11 @@ class Main extends Component {
                 <tr key={key}>
                   <th scope="row">{product.id.toString()}</th>
                   <td>{product.name}</td>
-                  <td>{window.web3.utils.fromWei(product.price.toString(), 'Ether')} Eth</td>
+                  <td>{window.web3.fromWei(product.price.toString(), 'Ether')} Eth</td>
                   <td>{product.owner}</td>
                   <td>
                     { !product.purchased
-                    ? <button class="btn btn-primary"
+                    ? <button className="btn btn-primary"
                         name={product.id}
                         value={product.price}
                         onClick={(event) => {
@@ -63,7 +63,7 @@ class Main extends Component {
                       >
                         Acheter
                       </button>
-                    : <button class="btn btn-primary">remettre en vente</button>
+                    : <button className="btn btn-primary">remettre en vente</button>
                     }
                   </td>
                 </tr>
