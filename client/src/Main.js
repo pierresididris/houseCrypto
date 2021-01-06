@@ -42,7 +42,7 @@ class Main extends Component {
                   <div className="product-grid6">
                     <div className="product-image6">
                       <a href="#">
-                        <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-1.jpg"></img>
+                        <img className="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-1.jpg"></img>
                       </a>
                     </div>
                     <div className="product-content">
