@@ -61,6 +61,7 @@ class App extends Component {
     .once('receipt', (receipt) => {
       // pour que l'utilisateur sache que l'appel de la fonction est terminé
       this.setState({ loading: false })
+      window.location.reload()
     })
   }
 
@@ -69,6 +70,7 @@ class App extends Component {
     this.state.marketplace.methods.purchaseProduct(id).send({ from: this.state.account, value: price })
     .once('receipt', (receipt) => {
       this.setState({ loading: false })
+      window.location.reload()
     })
   }
 
@@ -77,7 +79,7 @@ class App extends Component {
     return (
       <div>
         <Navbar account={this.state.account} />
-        <div className="container-fluid mt-5">
+        <div className="container mt-5">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex">
               { this.state.loading
