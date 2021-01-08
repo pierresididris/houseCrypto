@@ -50,11 +50,11 @@ class Main extends Component {
                       <div className="price">{window.web3.fromWei(product.price.toString(), 'Ether')} Eth
                       {/* <span>$14.00</span> */}
                       </div>
-                      <h3>proprietaire</h3>
                       <p>{product.owner}</p>
                     </div>
                     <ul className="social">
                       <li><a href="" data-tip="consulter"><i className="fa fa-search"></i></a></li>
+                      
                       <li>
                         { !product.purchased
                         ? <button name={product.id}
