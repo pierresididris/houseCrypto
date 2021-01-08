@@ -8,39 +8,56 @@ import Marketplace from './contracts/Marketplace.json'
 class App extends Component {
 
 
+ 
   componentWillMount() {
+    window.ethereum.on('accountsChanged', function () {
+      console.log("changement de compte")
+      // window.location.reload()
+    })
     this.loadBlockchainData()
+
   }
+
 
   async loadBlockchainData() {
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
     const accounts = await web3.eth.getAccounts()
-    console.log(accounts)
-    this.setState({ account: accounts[0] })
-    const networkId = await web3.eth.net.getId()
-    console.log(networkId);
-    const networkData = Marketplace.networks[networkId]
-    console.log(networkData)
-   
-    if (networkData){
-      const marketplace = new web3.eth.Contract(Marketplace.abi, networkData.address)
-      console.log(marketplace)
-      this.setState({ marketplace })
-      const productCount = await marketplace.methods.productCount().call()
-      console.log(productCount)
-      this.setState({ productCount })
-
-      for (var i = 1; i <= productCount; i++) {
-        const product = await marketplace.methods.products(i).call()
-        this.setState({
-          products: [...this.state.products, product]
-        })
-      }
-      this.setState({ loading: false })
+    
+    
+    if(accounts.length == 0){
+      this.setState({account:undefined})
     } else {
-      window.alert('Marketplace contract not deployed to detected network. ')
+      this.setState({ account: accounts[0] })
+      const networkId = await web3.eth.net.getId()
+      console.log(networkId);
+      const networkData = Marketplace.networks[networkId]
+
+      if (networkData){
+        const marketplace = new web3.eth.Contract(Marketplace.abi, networkData.address)
+        console.log(marketplace)
+        this.setState({ marketplace })
+        const productCount = await marketplace.methods.productCount().call()
+        this.setState({ productCount })
+  
+        for (var i = 1; i <= productCount; i++) {
+          const product = await marketplace.methods.products(i).call()
+          if(!product.purchased && product.owner != accounts){
+            this.setState({
+              products: [...this.state.products, product]
+            })
+          }
+        }
+        this.setState({ loading: false })
+      } else {
+        window.alert('Marketplace contract not deployed to detected network. ')
+      }
     }
+
+    
   }
+
+  
+
 
   constructor(props) {
     super(props)
@@ -52,6 +69,12 @@ class App extends Component {
     }
     this.createProduct = this.createProduct.bind(this)
     this.purchaseProduct = this.purchaseProduct.bind(this)
+  }
+
+  reload(){
+    window.ethereum.on('accountsChanged', function () {
+      console.log("changement de compte")
+    })
   }
 
   createProduct(name, price) {
@@ -78,6 +101,9 @@ class App extends Component {
   render() {
     return (
       <div>
+        {this.state.account===undefined 
+        ? <p>veuillez vous connecter</p>
+        :<>
         <Navbar account={this.state.account} />
         <div className="container mt-5">
           <div className="row">
@@ -92,6 +118,7 @@ class App extends Component {
             </main>
           </div>
         </div>
+      </>}
       </div>
     );
   }
