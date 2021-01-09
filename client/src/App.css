@@ -21,6 +21,9 @@
   color: #09d3ac;
 }
 
+.main-content{
+  min-width: 100%;
+}
 
 .product-grid6,.product-grid6 .product-image6{overflow:hidden}
 .product-grid6{font-family:'Open Sans',sans-serif;text-align:center;position:relative;transition:all .5s ease 0s; margin-bottom: 10px;}

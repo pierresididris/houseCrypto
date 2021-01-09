@@ -4,13 +4,18 @@ class Main extends Component {
 
   render() {
     return (
-      <div id="content">
-        <h1>Ajouter un produit</h1>
+      <div id="content" className="main-content">
+        <h1>Mettre un bien en vente</h1>
         <form onSubmit={(event) => {
           event.preventDefault()
           const name = this.productName.value
           const price = window.web3.toWei(this.productPrice.value.toString(), 'Ether')
-          this.props.createProduct(name, price)
+          const address = this.productAddress.value
+          const area = this.productArea.value
+          const description = this.productDescription.value
+          const nbRoom = this.productNbRoom.value
+          var sellingDate = '9/01/2021'
+          this.props.createRealEstate(name, price, address, area, description, nbRoom, sellingDate)
         }}>
           <div className="form-group mr-sm-2">
             <input
@@ -18,25 +23,61 @@ class Main extends Component {
               type="text"
               ref={(input) => { this.productName = input }}
               className="form-control"
-              placeholder="Nom du produit"
+              placeholder="Nom du bien"
               required />
           </div>
           <div className="form-group mr-sm-2">
             <input
               id="productPrice"
-              type="text"
+              type="number"
               ref={(input) => { this.productPrice = input }}
               className="form-control"
-              placeholder="Prix du produit"
+              placeholder="Prix du bien"
               required />
           </div>
-          <button type="submit" className="btn btn-primary">Ajouter un produit</button>
+          <div className="form-group mr-sm-2">
+            <input
+              id="productAddress"
+              type="text"
+              ref={(input) => { this.productAddress = input }}
+              className="form-control"
+              placeholder="Adresse du bien"
+              required />
+          </div>
+          <div className="form-group mr-sm-2">
+            <input
+              id="productArea"
+              type="number"
+              ref={(input) => { this.productArea = input }}
+              className="form-control"
+              placeholder="surface"
+              required />
+          </div>
+          <div className="form-group mr-sm-2">
+            <input
+              id="productDescription"
+              type="text"
+              ref={(input) => { this.productDescription = input }}
+              className="form-control"
+              placeholder="description"
+              required />
+          </div>
+          <div className="form-group mr-sm-2">
+            <input
+              id="productNbRoom"
+              type="number"
+              ref={(input) => { this.productNbRoom = input }}
+              className="form-control"
+              placeholder="Nombre de piece"
+              required />
+          </div>
+          <button type="submit" className="btn btn-primary">Ajouter un bien</button>
         </form>
         <p> </p>
         <div className="container">
           <h2>Acheter un produit</h2>
           <div className="row">
-            {this.props.products.map((product, key) => {
+            {this.props.products.map((product) => {
               return (
                 <div className="col-md-3 col-sm-6">
                   <div className="product-grid6">
@@ -48,8 +89,8 @@ class Main extends Component {
                     <div className="product-content">
                       <h3 className="title"><p>{product.name}</p></h3>
                       <div className="price">{window.web3.fromWei(product.price.toString(), 'Ether')} Eth
-                      {/* <span>$14.00</span> */}
                       </div>
+                      <p>{product.name}</p>
                       <p>{product.owner}</p>
                     </div>
                     <ul className="social">
@@ -61,7 +102,7 @@ class Main extends Component {
                           value={product.price}
                           data-tip="acheter"
                           onClick={(event) => {
-                            this.props.purchaseProduct(event.target.name, event.target.value)
+                            this.props.purchaseRealEstate(event.target.name, event.target.value)
                           }}>
                             <i className="fa fa-shopping-cart"></i>
                           </button>
