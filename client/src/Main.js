@@ -14,7 +14,7 @@ class Main extends Component {
           const area = this.productArea.value
           const description = this.productDescription.value
           const nbRoom = this.productNbRoom.value
-          var sellingDate = '9/01/2021'
+          var sellingDate = Date.now().toString()
           this.props.createRealEstate(name, price, address, area, description, nbRoom, sellingDate)
         }}>
           <div className="form-group mr-sm-2">
@@ -93,6 +93,8 @@ class Main extends Component {
                       </div>
                       <p>{product.name}</p>
                       <p>{product.owner}</p>
+                      <p>{product.description}</p>
+                      <p>{product.sellingDate}</p>
                     </div>
                     <ul className="social">
                       <li><a href="" data-tip="consulter"><i className="fa fa-search"></i></a></li>

@@ -7,8 +7,6 @@ import Marketplace from './contracts/Marketplace.json'
 
 class App extends Component {
 
-
- 
   componentWillMount() {
     window.ethereum.on('accountsChanged', function () {
       console.log("changement de compte")
@@ -17,12 +15,10 @@ class App extends Component {
 
   }
 
-
   async loadBlockchainData() {
-    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
+    const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
     const accounts = await web3.eth.getAccounts()
-    
-    
+    console.log(Web3.givenProvider)
     if(accounts.length == 0){
       this.setState({account:undefined})
     } else {
@@ -50,13 +46,8 @@ class App extends Component {
       } else {
         window.alert('Marketplace contract not deployed to detected network. ')
       }
-    }
-
-    
+    } 
   }
-
-  
-
 
   constructor(props) {
     super(props)
@@ -64,7 +55,7 @@ class App extends Component {
       account: '',
       productCount: 0,
       products: [],
-      loading: true
+      loading: true,
     }
     this.createRealEstate = this.createRealEstate.bind(this)
     this.purchaseRealEstate = this.purchaseRealEstate.bind(this)
@@ -96,12 +87,13 @@ class App extends Component {
     })
   }
 
-
   render() {
     return (
       <div>
         {this.state.account===undefined 
-        ? <p>veuillez vous connecter</p>
+        ? <>
+        <p>veuillez vous connecter</p>
+        </>
         :<>
         <Navbar account={this.state.account} />
         <div className="container mt-5">
