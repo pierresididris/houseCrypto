@@ -30,6 +30,7 @@ class Main extends Component {
             <input
               id="productPrice"
               type="number"
+              step="0.01"
               ref={(input) => { this.productPrice = input }}
               className="form-control"
               placeholder="Prix du bien"
