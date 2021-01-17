@@ -1,18 +1,19 @@
 import React, { functionComponent } from 'react';
+import Web3 from 'web3'
 
-const Form = ({name, price, adress, area, description, nbRoom}) => {
+const Form = ({name, price, adress, area, description, nbRoom, createRealEstate, marketplace, account}) => {
     return(
     <form onSubmit={(event) => {
-        console.log("clic")
         event.preventDefault()
-        const n = name
-        //const p = window.web3.toWei(price, 'Ether')
-        const p = 0.01
-        const ad = adress
-        const ar = area
-        const desc = description
-        const nbR = nbRoom
+        const n = name.value
+        const p = Web3.utils.toWei(price.value, 'Ether')
+        console.log(p)
+        const ad = adress.value
+        const ar = area.value
+        const desc = description.value
+        const nbR = nbRoom.value
         var sellingDate = Date.now().toString()
+        createRealEstate(n, p, ad, ar, desc, nbR, sellingDate, marketplace, account)
       }}>
         <div className="form-group mr-sm-2">
           <input
