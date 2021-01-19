@@ -9,6 +9,15 @@ import { BrowserRouter, Switch, Route } from "react-router-dom"
 
 class App extends Component {
 
+  ethEnabled = () => {  
+    if (window.ethereum) {   
+      window.web3 = new Web3(window.ethereum);    
+      window.ethereum.enable();   
+      return true;  
+    }  
+  return false;
+}
+
   componentWillMount() {
     window.ethereum.on('accountsChanged', function () {
       console.log("changement de compte")
@@ -18,16 +27,19 @@ class App extends Component {
   }
 
   async loadBlockchainData() {
-    const web3 = new Web3(Web3.givenProvider)
-    const accounts = await web3.eth.getAccounts()
+    const en = this.ethEnabled()
+    if(en){
+    window.web3 = new Web3(window.ethereum);    
+    window.ethereum.enable(); 
+    const accounts = await window.web3.eth.getAccounts()
     if (accounts.length === 0) {
       this.setState({ account: undefined })
     } else {
       this.setState({ account: accounts[0] })
-      const networkId = await web3.eth.net.getId()
+      const networkId = await window.web3.eth.net.getId()
       const networkData = Marketplace.networks[networkId]
       if (networkData) {
-        const marketplace = new web3.eth.Contract(Marketplace.abi, networkData.address)
+        const marketplace = new window.web3.eth.Contract(Marketplace.abi, networkData.address)
         this.setState({ marketplace })
         const productCount = await marketplace.methods.productCount().call()
         this.setState({ productCount })
@@ -47,10 +59,21 @@ class App extends Component {
             })
           }
         }
+        for (var j = 1; j <= productCount; j++) {
+          const unsoldProduct = await marketplace.methods.products(j).call()
+          if (!unsoldProduct.purchased && unsoldProduct.owner === this.state.account) {
+            this.setState({
+              unsoldProducts: [...this.state.unsoldProducts, unsoldProduct]
+            })
+          }
+        }
         this.setState({ loading: false })
       } else {
         window.alert('Marketplace contract not deployed to detected network. ')
       }
+    }
+    }else {
+      window.alert("PAS DE METAMASK, INSTALLEZ SVP")
     }
   }
 
@@ -61,6 +84,7 @@ class App extends Component {
       productCount: 0,
       availableProducts: [],
       ownedProducts: [],
+      unsoldProducts: [],
       loading: true,
     }
     this.createRealEstate = this.createRealEstate.bind(this)
@@ -68,48 +92,31 @@ class App extends Component {
   }
 
   createRealEstate(name, price, address, area, description, nbRoom, sellingDate) {
-    console.log(this.state.marketplace)
     this.setState({ loading: true })
     //appelle la fonction et indique à Web3 que le compte actuel est l'utilisateur qui l'appelle.
     this.state.marketplace.methods.createRealEstate(name, price, address, area, description, nbRoom, sellingDate)
     .send({ from: this.state.account }) 
-    // .once('receipt', async function(receipt) {
-    //     console.log(receipt)
-    //     // pour que l'utilisateur sache que l'appel de la fonction est terminé
-    //     window.alert("Bien")
-    //     this.setState({ loading: false })
-    //     window.location.reload()
-    //   })
-    //   .once('confirmation', function(receipt){
-    //     console.log(receipt)
-    //     window.alert("Z")
-    //   })
-    //   .on('confirmation', function(receipt){
-    //     console.log(receipt)
-    //     window.alert("A")
-    //   })
-    //   .on('receipt', async function(receipt) {
-    //     console.log(receipt)
-    //     // pour que l'utilisateur sache que l'appel de la fonction est terminé
-    //     this.setState({ loading: false })
-    //     window.location.reload()
-    //   })
-      // .on('error', () => {
-      //   window.alert("Vous avez refusé la transaction !")
-      //   window.location.reload()
-      // })
-      .then(() => {
-        window.alert("ALERTE : bien cree")
+    .once('transactionHash', (hash) => {
+      window.web3.eth.getTransactionReceipt(hash).then(() => {
+
       })
+    })
+    .once('receipt', function(receipt){ console.log(receipt) })
+    .on('confirmation', function(confNumber, receipt){ console.log(confNumber);console.log(receipt) })
+    .on('error', () => {
+      window.alert("Vous avez refusé la transaction !")
+      window.location.reload()
+    }).then(function(receipt){
+        // will be fired once the receipt is mined
+        console.log(receipt)
+    });
   }
 
   purchaseRealEstate(id, price) {
     this.setState({ loading: true })
     this.state.marketplace.methods.purchaseRealEstate(id).send({ from: this.state.account, value: price })
       .once('receipt', () => {
-        console.log("C")
         // pour que l'utilisateur sache que l'appel de la fonction est terminé
-        window.alert("Achat effectue")
         this.setState({ loading: false })
         window.location.reload()
       })
@@ -119,7 +126,6 @@ class App extends Component {
       }
       )
       .on('confirmation', ()=>{
-        console.log("D")
       })
   }
 
