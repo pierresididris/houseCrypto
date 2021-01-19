@@ -1,7 +1,10 @@
 import React from 'react';
-import Web3 from 'web3'
+import Web3 from 'web3';
+import {Button} from 'react-bootstrap';
+import {ProductDetails} from '../../Components';
 
-const Product = ({name, price, owner, description, sellingDate, purchased, id, purchaseRealEstate, parentProps}) => {
+const Product = ({product, purchaseRealEstate, parentProps}) => {
+  const [modalShow, setModalShow] = React.useState(false);
     return(
 <div className="col-md-3 col-sm-6">
 <div className="product-grid6">
@@ -11,28 +14,36 @@ const Product = ({name, price, owner, description, sellingDate, purchased, id, p
     </a>
   </div>
   <div className="product-content">
-    <h3 className="title"><p>{name}</p></h3>
-    <div className="price">{Web3.utils.fromWei(price.toString(), 'Ether')} Eth
+    <h3 className="title"><p>{product.name}</p></h3>
+    <div className="price">{Web3.utils.fromWei(product.price.toString(), 'Ether')} Eth
     </div>
-    <p>{name}</p>
-    <p>{owner}</p>
-    <p>{description}</p>
+    <p>{product.name}</p>
+    <p>{product.owner}</p>
+    <p>{product.description}</p>
     <p>
     {
-    Date(sellingDate)
+    Date(product.sellingDate)
     }
     </p>
   </div>
   <ul className="social">
-    <li><a href="" data-tip="consulter"><i className="fa fa-search"></i></a></li>
     <li>
-      { !purchased && purchaseRealEstate !== undefined
-      ? <button name={id}
-        value={price}
+    <Button         data-tip="consulter"
+variant="primary" onClick={() => setModalShow(true)}>
+      </Button>
+      <ProductDetails
+        product={product}
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
+    </li>
+    <li>
+      { !product.purchased && purchaseRealEstate !== undefined
+      ? <button name={product.id}
+        value={product.price}
         data-tip="acheter"
         onClick={() => {
-          purchaseRealEstate(id, price, parentProps.marketplace, parentProps.account)
-          
+          purchaseRealEstate(product.id, product.price, parentProps.marketplace, parentProps.account) 
         }}>
           <i className="fa fa-shopping-cart"></i>
         </button>

@@ -1,4 +1,4 @@
-import React, { functionComponent } from 'react';
+import React from 'react';
 import Web3 from 'web3'
 
 const Form = ({name, price, adress, area, description, nbRoom, createRealEstate, marketplace, account}) => {
@@ -7,7 +7,6 @@ const Form = ({name, price, adress, area, description, nbRoom, createRealEstate,
         event.preventDefault()
         const n = name.value
         const p = Web3.utils.toWei(price.value, 'Ether')
-        console.log(p)
         const ad = adress.value
         const ar = area.value
         const desc = description.value

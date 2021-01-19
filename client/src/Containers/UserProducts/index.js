@@ -1,22 +1,20 @@
 import React from 'react';
 import { Product } from '../../Components'
 
-const UserProducts = ({account, array}) => {
+const UserProducts = ({array}) => {
     return(
     <>
-    <p>{account}</p>
     <p>VOS BIENS</p>
     {
+        array.length === 0 ? 
+        <>
+            <p>Vous n'avez encore rien acheté, et si vous achetiez quelque chose ?</p>
+        </>
+        :
         array.map((product)=>{
             return(
             <Product 
-            name={product.name} 
-            price={(product.price.toString())}
-             owner={product.owner} 
-             description={product.description} 
-             sellingDate={product.sellingDate} 
-             purchased={product.purchased} 
-             id={product.id}
+             product={product}
              purchaseRealEstate={undefined}
              parentProps={undefined}/>
             )

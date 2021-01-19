@@ -40,7 +40,6 @@ const Navbar = ({account}) => {
               
               <NavLink className="navbar-item" activeClassName="is-active"to="/profile">
                   <p className="navbar-brand col-sm-4" id="account">
-                    {console.log(account)}
                                   {account}
                 </p>
               </NavLink>
