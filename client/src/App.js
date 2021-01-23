@@ -6,6 +6,12 @@ import { UserProducts, Products } from './Containers'
 import { Form, Navbar, NotConnected, Loader, Selector } from './Components'
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 
+const map = new Map()
+map.set(1, "Residences")
+map.set(2, "Maisons")
+map.set(3, "Terrains")
+map.set(4, "Appartements")
+map.set(5, "Autres")
 
 class App extends Component {
 
@@ -148,14 +154,22 @@ class App extends Component {
                         <Switch>
                           <Route exact path="/">
                             <div className="container">
-                            <Selector handleChange={this.handleChange} options={["","résidences",
-"maisons",
-"terrains",
-"appartements",
-"autres"]}/>
+                            <Selector handleChange={this.handleChange} options={["","Residences",
+"Maisons",
+"Terrains",
+"Appartements",
+"Autres"]}/>
                               <h1 class="display-5">Biens à vendre : {this.state.currentCategory}</h1>
                               <div className="row row-cols-4">
-                                  <Products array={this.state.availableProducts} purchaseRealEstate={this.purchaseRealEstate} parentProps={this.state} />
+                                {this.state.currentCategory !== "" ?                                 
+                                <Products array={this.state.availableProducts.filter(
+                                    (x)=>
+                                    map.get(parseInt(x.realEstateType)) === this.state.currentCategory
+                                    )}
+                                  purchaseRealEstate={this.purchaseRealEstate} parentProps={this.state} /> :  
+                                    <Products array={this.state.availableProducts}
+                                  purchaseRealEstate={this.purchaseRealEstate} parentProps={this.state} />}
+  
                               </div>
                             </div>
                           </Route>
@@ -167,10 +181,10 @@ class App extends Component {
                           </Route>
                           <Route exact path="/profile">
                             <div className="container mt-5">
-                              <h2>Bien en votre possessions</h2>
+                              <h2>Biens en votre possessions</h2>
                               <div className="row">
                                 <main role="main" className="col-lg-12 d-flex">
-                                  <UserProducts array={this.state.ownedProducts} />
+                                  <UserProducts array={this.state.ownedProducts} createRealEstate={this.createRealEstate} account={this.state.account} marketplace={this.state.marketplace}/>
                                 </main>
                               </div>
                             </div>

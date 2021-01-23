@@ -8,18 +8,25 @@ map.set("Terrain", 3)
 map.set("Appartement", 4)
 map.set("Autre", 5)
 
-const Form = ({name, price, adress, area, description, nbRoom, createRealEstate, marketplace, account}) => {
+const dateObj = new Date();
+const month = dateObj.getUTCMonth() + 1; //months from 1-12
+const day = dateObj.getUTCDate();
+const year = dateObj.getUTCFullYear();
+
+const currentDate = day + "/" + month + "/" + year 
+
+const Form = ({name, price, type, adress, area, description, nbRoom, createRealEstate, marketplace, account}) => {
     return(
     <form className="create-product-form" onSubmit={(event) => {
         event.preventDefault()
         const n = name.value
         const p = Web3.utils.toWei(price.value, 'Ether')
-        const t = map.get(event.target.value)
+        const t = map.get(type.value)
         const ad = adress.value
         const ar = area.value
         const desc = description.value
         const nbR = nbRoom.value
-        var sellingDate = Date.now().toString()
+        var sellingDate = currentDate
         createRealEstate(n, p, t, ad, ar, desc, nbR, sellingDate, marketplace, account)
       }}>
         <div className="form-group mr-sm-2">
@@ -78,7 +85,7 @@ const Form = ({name, price, adress, area, description, nbRoom, createRealEstate,
             required />
         </div>
         <div className="form-group mr-sm-2">
-        <select name="Select" id="select">
+        <select name="Select" id="select" ref={(input) => { type = input }}>
     <option value="Residence">Residence</option>
     <option value="Maison">Maison</option>
     <option value="Terrain">Terrain</option>

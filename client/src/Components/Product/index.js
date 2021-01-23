@@ -1,9 +1,9 @@
 import React from 'react';
 import Web3 from 'web3';
-import {Button} from 'react-bootstrap';
 import {ProductDetails} from '../../Components';
 
-const Product = ({product, purchaseRealEstate, parentProps}) => {
+const Product = ({product, purchaseRealEstate, parentProps, resell, createRealEstate, marketplace, account}) => {
+  console.log(product)
   const [modalShow, setModalShow] = React.useState(false);
   return(
     <div class="col-6 col-md-3 product-content">
@@ -12,7 +12,7 @@ const Product = ({product, purchaseRealEstate, parentProps}) => {
          <div className="card-body product-content">
            <h5 className="card-title">{product.name}</h5>
            <p className="card-text">{product.description}</p>
-           <p className="card-text">Mise en vente le : {Date(product.sellingDate)}</p>
+           <p className="card-text">Mise en vente le : {product.sellingDate}</p>
 
          </div>
          <ul class="list-group list-group-flush">
@@ -24,10 +24,14 @@ const Product = ({product, purchaseRealEstate, parentProps}) => {
                <i className="fa fa-search"></i>
              </button>
              <ProductDetails
-               product={product}
-               show={modalShow}
-               onHide={() => setModalShow(false)}
-             />
+             product={product}
+             show={modalShow}
+             resell={resell}
+             marketplace={marketplace}
+             account={account}
+             createRealEstate={createRealEstate}
+             onHide={() => setModalShow(false)}
+           />
            </li>
            <li>
              { !product.purchased && purchaseRealEstate !== undefined
