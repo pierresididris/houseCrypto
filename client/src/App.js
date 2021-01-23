@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import './App.css';
 import Marketplace from './contracts/Marketplace.json'
 import { UserProducts, Products } from './Containers'
-import { Form, Navbar } from './Components'
+import { Form, Navbar, NotConnected, Loader, Selector } from './Components'
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 
 
@@ -86,17 +86,19 @@ class App extends Component {
       ownedProducts: [],
       unsoldProducts: [],
       loading: true,
+      currentCategory: ""
     }
     this.createRealEstate = this.createRealEstate.bind(this)
     this.purchaseRealEstate = this.purchaseRealEstate.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  createRealEstate(name, price, address, area, description, nbRoom, sellingDate) {
+  createRealEstate(name, price, type, address, area, description, nbRoom, sellingDate) {
     this.setState({ loading: true })
     //appelle la fonction et indique à Web3 que le compte actuel est l'utilisateur qui l'appelle.
-    this.state.marketplace.methods.createRealEstate(name, price, address, area, description, nbRoom, sellingDate)
+    this.state.marketplace.methods.createRealEstate(name, price, type, address, area, description, nbRoom, sellingDate)
     .send({ from: this.state.account }) 
-    .once('receipt', (receipt) => {
+    .once('receipt', () => {
       // pour que l'utilisateur sache que l'appel de la fonction est terminé
       this.setState({ loading: false })
       window.location.reload()
@@ -110,7 +112,7 @@ class App extends Component {
   purchaseRealEstate(id, price) {
     this.setState({ loading: true })
     this.state.marketplace.methods.purchaseRealEstate(id).send({ from: this.state.account, value: price })
-      .once('receipt', (receipt) => {
+      .once('receipt', () => {
         // pour que l'utilisateur sache que l'appel de la fonction est terminé
         this.setState({ loading: false })
         window.location.reload()
@@ -122,36 +124,22 @@ class App extends Component {
       )
   }
 
+  handleChange(newOption){
+    this.setState({currentCategory: newOption.target.value})
+  }
+
   render() {
     return (
       <div>
         {
           this.state.account === undefined ? <>
-              <div class="outer">
-                <div class="middle">
-                  <div class="inner">
-                    <div class="alert alert-success" role="alert">
-                      <h4 class="alert-heading">Vous n'êtes pas connecté</h4>
-                      <p>Veuillez vous connecter à Metamask pour acceder à cet espace</p>
-                    </div>
-                  </div>
-                </div>
-              </div> 
+            <NotConnected/>
           </>
             :
             <>
               {
                 this.state.loading ? <>
-                  <div class="outer">
-                    <div class="middle">
-                      <div class="inner">
-                        <div class="spinner-border text-info loading" role="status">
-                          <span class="visually-hidden"></span>
-                        </div>
-                          <h4 class="alert-heading">Chargement</h4>
-                      </div>
-                    </div>
-                  </div>
+                  <Loader/>
                 </>
                   : <>
                     <BrowserRouter>
@@ -160,8 +148,12 @@ class App extends Component {
                         <Switch>
                           <Route exact path="/">
                             <div className="container">
-                              <h1 class="display-5">Bien à vendre</h1>
-
+                            <Selector handleChange={this.handleChange} options={["","résidences",
+"maisons",
+"terrains",
+"appartements",
+"autres"]}/>
+                              <h1 class="display-5">Biens à vendre : {this.state.currentCategory}</h1>
                               <div className="row row-cols-4">
                                   <Products array={this.state.availableProducts} purchaseRealEstate={this.purchaseRealEstate} parentProps={this.state} />
                               </div>
