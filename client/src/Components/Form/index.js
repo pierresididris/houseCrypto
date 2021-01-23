@@ -3,7 +3,7 @@ import Web3 from 'web3'
 
 const Form = ({name, price, adress, area, description, nbRoom, createRealEstate, marketplace, account}) => {
     return(
-    <form onSubmit={(event) => {
+    <form className="create-product-form" onSubmit={(event) => {
         event.preventDefault()
         const n = name.value
         const p = Web3.utils.toWei(price.value, 'Ether')

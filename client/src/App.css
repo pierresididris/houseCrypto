@@ -25,6 +25,67 @@
   min-width: 100%;
 }
 
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  background: #CBD0D8 ;
+
+}
+
+.Main-Section{
+  background: #CBD0D8 ;
+  padding-top: 150px;
+}
+
+/* NAVBAR */
+
+
+.navbar #account{
+  margin-top: 5px;
+}
+/* end of navbar */
+
+
+/* CONNEXION PAGE */
+.outer {
+  display: table;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.inner {
+  margin-left: 30%;
+  margin-right: 30%;
+  text-align: center;
+}
+/* end of connexion page */
+
+/* LOADING PAGE */
+.loading div, .loading span{
+  text-align: center;
+}
+/* end of loading page */
+
+/* PRODUCT CREATION */
+/* .create-product-form, main{
+  margin-top: 40;
+} */
+/* end of product creation */
+
+
+/* PRODUCT DISPAY */
+
+.product-content{margin-bottom: 25px; position: relative;}
 .product-grid6,.product-grid6 .product-image6{overflow:hidden}
 .product-grid6{font-family:'Open Sans',sans-serif;text-align:center;position:relative;transition:all .5s ease 0s; margin-bottom: 10px;}
 .product-grid6:hover{box-shadow:0 0 10px rgba(0,0,0,.3)}
@@ -38,8 +99,8 @@
 .product-grid6 .title a:hover{color:#2e86de}
 .product-grid6 .price{font-size:18px;font-weight:600;color:#2e86de}
 .product-grid6 .price span{color:#999;font-size:15px;font-weight:400;text-decoration:line-through;margin-left:7px;display:inline-block}
-.product-grid6 .social{background-color:#fff;width:100%;padding:0;margin:0;list-style:none;opacity:0;transform:translateX(-50%);position:absolute;bottom:-50%;left:50%;z-index:1;transition:all .5s ease 0s}
-.product-grid6:hover .social{opacity:1;bottom:20px}
+.product-grid6 .social{background-color:#fff;width:100%;padding:0;margin:0;list-style:none;opacity:0;transform:translateX(-50%);position:absolute;bottom:0;left:50%;z-index:1;transition:all .5s ease 0s}
+.product-grid6:hover .social{opacity:1;bottom:55px; background: none;}
 .product-grid6 .social li{display:inline-block}
 .product-grid6 .social li a{color:#909090;font-size:16px;line-height:45px;text-align:center;height:45px;width:45px;margin:0 7px;border:1px solid #909090;border-radius:50px;display:block;position:relative;transition:all .3s ease-in-out}
 .product-grid6 .social li button{color:#909090;font-size:16px;line-height:45px;text-align:center;height:45px;width:45px;margin:0 7px;border:1px solid #909090;border-radius:50px;display:block;position:relative;transition:all .3s ease-in-out}
@@ -53,3 +114,5 @@
 .product-grid6 .social li button:hover:after,.product-grid6 .social li button:hover:before{opacity:1}
 @media only screen and (max-width:990px){.product-grid6{margin-bottom:30px}
 }
+
+/* end of prodcut display */
