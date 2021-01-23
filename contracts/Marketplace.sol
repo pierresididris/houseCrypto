@@ -10,6 +10,7 @@ contract Marketplace {
         uint id;
         string name;
         uint price;
+        uint realEstateType;
         string realEstateAddress;
         uint area;
         string description;
@@ -23,6 +24,7 @@ contract Marketplace {
         uint id,
         string name,
         uint price,
+        uint realEstateType,
         string realEstateAddress,
         uint area,
         string description,
@@ -36,6 +38,7 @@ contract Marketplace {
         uint id,
         string name,
         uint price,
+        uint realEstateType,
         string realEstateAddress,
         uint area,
         string description,
@@ -52,6 +55,7 @@ contract Marketplace {
     function createRealEstate(
             string memory _name, 
             uint _price,
+            uint _realEstateType,
             string memory _realEstateAddress,
             uint _area,
             string memory _description, 
@@ -62,6 +66,8 @@ contract Marketplace {
         require(bytes(_name).length > 0);
         // Require a valid price
         require(_price > 0);
+        // Require a valid type of realestate
+        require(_realEstateType > 0 && _realEstateType< 6 );
         // Require a valid address of realestate
         require(bytes(_realEstateAddress).length > 0);
         // // Require a valid area
@@ -79,6 +85,7 @@ contract Marketplace {
             productCount, 
             _name, 
             _price, 
+            _realEstateType, 
             _realEstateAddress, 
             _area, 
             _description, 
@@ -92,6 +99,7 @@ contract Marketplace {
             productCount, 
             _name, 
             _price, 
+            _realEstateType,
             _realEstateAddress, 
             _area, 
             _description, 
@@ -130,6 +138,7 @@ contract Marketplace {
             productCount, 
             _product.name, 
             _product.price, 
+            _product.realEstateType, 
             _product.realEstateAddress, 
             _product.area, 
             _product.description, 
