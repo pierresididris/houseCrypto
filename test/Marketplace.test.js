@@ -33,6 +33,7 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       result = await marketplace.createRealEstate(
         'Flat', 
         web3.utils.toWei('1', 'Ether'), 
+        4,
         '75 rue saint jacques',
         42,
         'Petit appartement en bord de mer',
@@ -50,6 +51,7 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       assert.equal(event.id.toNumber(), productCount.toNumber(), 'id is correct')
       assert.equal(event.name, 'Flat', 'name is correct')
       assert.equal(event.price, '1000000000000000000', 'price is correct')
+      assert.equal(event.realEstateType, 4, 'type is correct')
       assert.equal(event.realEstateAddress, '75 rue saint jacques', 'address is correct')
       assert.equal(event.area, 42, 'area is correct')
       assert.equal(event.description, 'Petit appartement en bord de mer', 'description is correct')
@@ -59,19 +61,21 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       assert.equal(event.purchased, false, 'purchased is correct')
 
       // FAILURE: RealEstate must have a name
-      await await marketplace.createRealEstate('', web3.utils.toWei('1', 'Ether'), '75 rue saint jacques', 42, 'Petit appartement en bord de mer', 2, '07/01/2021', { from: seller }).should.be.rejected;
+      await await marketplace.createRealEstate('', web3.utils.toWei('1', 'Ether'),4, '75 rue saint jacques', 42, 'Petit appartement en bord de mer', 2, '07/01/2021', { from: seller }).should.be.rejected;
       // FAILURE: RealEstate must have a price
-      await await marketplace.createRealEstate('Flat', 0, '75 rue saint jacques', 42, 'Petit appartement en bord de mer', 2, '07/01/2021', { from: seller }).should.be.rejected;
+      await await marketplace.createRealEstate('Flat', 0, 4, '75 rue saint jacques', 42, 'Petit appartement en bord de mer', 2, '07/01/2021', { from: seller }).should.be.rejected;
+      // FAILURE: RealEstate must have a type
+      await await marketplace.createRealEstate('Flat', 0, 0, '75 rue saint jacques', 42, 'Petit appartement en bord de mer', 2, '07/01/2021', { from: seller }).should.be.rejected;
       // FAILURE: RealEstate must have an address
-      await await marketplace.createRealEstate('Flat', web3.utils.toWei('1', 'Ether'), '', 42,'Petit appartement en bord de mer', 2, '07/01/2021', { from: seller }).should.be.rejected;
+      await await marketplace.createRealEstate('Flat', web3.utils.toWei('1', 'Ether'), 4, '', 42,'Petit appartement en bord de mer', 2, '07/01/2021', { from: seller }).should.be.rejected;
       // // FAILURE: RealEstate must have an area
-      await await marketplace.createRealEstate('Flat', web3.utils.toWei('1', 'Ether'), '75 rue saint jacques', 0, 'Petit appartement en bord de mer', 2, '07/01/2021', { from: seller }).should.be.rejected;
+      await await marketplace.createRealEstate('Flat', web3.utils.toWei('1', 'Ether'), 4, '75 rue saint jacques', 0, 'Petit appartement en bord de mer', 2, '07/01/2021', { from: seller }).should.be.rejected;
       // // FAILURE: RealEstate must have a description
-      await await marketplace.createRealEstate('Flat', web3.utils.toWei('1', 'Ether'), '75 rue saint jacques', 42, '', 2, '07/01/2021', { from: seller }).should.be.rejected;
+      await await marketplace.createRealEstate('Flat', web3.utils.toWei('1', 'Ether'), 4, '75 rue saint jacques', 42, '', 2, '07/01/2021', { from: seller }).should.be.rejected;
       // // FAILURE: RealEstate must have a nb of room
-      await await marketplace.createRealEstate('Flat', web3.utils.toWei('1', 'Ether'), { from: seller }, '75 rue saint jacques', 42, 'Petit appartement en bord de mer', 0, '07/01/2021', { from: seller }).should.be.rejected;
+      await await marketplace.createRealEstate('Flat', web3.utils.toWei('1', 'Ether'), { from: seller }, 4, '75 rue saint jacques', 42, 'Petit appartement en bord de mer', 0, '07/01/2021', { from: seller }).should.be.rejected;
       // // FAILURE: RealEstate must have a nb of sellingDate
-      await await marketplace.createRealEstate('Flat', web3.utils.toWei('1', 'Ether'), { from: seller }, '75 rue saint jacques', 42, 'Petit appartement en bord de mer', 0, '', { from: seller }).should.be.rejected;
+      await await marketplace.createRealEstate('Flat', web3.utils.toWei('1', 'Ether'), { from: seller }, 4, '75 rue saint jacques', 42, 'Petit appartement en bord de mer', 0, '', { from: seller }).should.be.rejected;
       
     })
 
@@ -91,6 +95,7 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       assert.equal(event.id.toNumber(), productCount.toNumber(), 'id is correct')
       assert.equal(event.name, 'Flat', 'name is correct')
       assert.equal(event.price, '1000000000000000000', 'price is correct')
+      assert.equal(event.realEstateType, 4, 'Type is correct')
       assert.equal(event.realEstateAddress, '75 rue saint jacques', 'address is correct')
       assert.equal(event.area, 42, 'area is correct')
       assert.equal(event.description, 'Petit appartement en bord de mer', 'description is correct')
