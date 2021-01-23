@@ -1,7 +1,7 @@
 import React from 'react';
 import { Product } from '../../Components'
 
-const UserProducts = ({array}) => {
+const UserProducts = ({array, createRealEstate, account, marketplace}) => {
     return(
     <>
     {
@@ -14,6 +14,10 @@ const UserProducts = ({array}) => {
             return(
             <Product 
              product={product}
+             resell={true}
+             createRealEstate={createRealEstate}
+             account={account}
+             marketplace={marketplace}
              purchaseRealEstate={undefined}
              parentProps={undefined}/>
             )
