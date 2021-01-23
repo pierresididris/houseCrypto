@@ -13,11 +13,11 @@ const ProductDetails = (props) => {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        Modal heading
+                    Détail du bien
         </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-            <p>Détail du produit</p>
+            <p>Nom du bien</p>
             <p>{props.product.name}</p>
             <p>Vendu par {props.product.owner}</p>
             <p>{Web3.utils.fromWei(props.product.price.toString(), 'Ether')} Eth</p>
@@ -28,7 +28,7 @@ const ProductDetails = (props) => {
             <p>Produit mis en vente depuis le {props.product.sellingDate}</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={props.onHide}>Close</Button>
+                    <Button onClick={props.onHide}>Fermer</Button>
                 </Modal.Footer>
             </Modal>
         </>

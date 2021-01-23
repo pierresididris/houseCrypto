@@ -4,7 +4,6 @@ import { Product } from '../../Components'
 const UserProducts = ({array}) => {
     return(
     <>
-    <p>VOS BIENS</p>
     {
         array.length === 0 ? 
         <>

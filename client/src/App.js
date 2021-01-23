@@ -21,7 +21,7 @@ class App extends Component {
   componentWillMount() {
     window.ethereum.on('accountsChanged', function () {
       console.log("changement de compte")
-      window.location.reload()
+      // window.location.reload()
     })
     this.loadBlockchainData()
   }
@@ -69,11 +69,11 @@ class App extends Component {
         }
         this.setState({ loading: false })
       } else {
-        window.alert('Marketplace contract not deployed to detected network. ')
+        window.alert('Le smart contract Marketplace n\'est pas déployé sur le reseaux selectionné')
       }
     }
     }else {
-      window.alert("PAS DE METAMASK, INSTALLEZ SVP")
+      window.alert("Veuillez installer l'extension Metamask")
     }
   }
 
@@ -96,26 +96,21 @@ class App extends Component {
     //appelle la fonction et indique à Web3 que le compte actuel est l'utilisateur qui l'appelle.
     this.state.marketplace.methods.createRealEstate(name, price, address, area, description, nbRoom, sellingDate)
     .send({ from: this.state.account }) 
-    .once('transactionHash', (hash) => {
-      window.web3.eth.getTransactionReceipt(hash).then(() => {
-
-      })
+    .once('receipt', (receipt) => {
+      // pour que l'utilisateur sache que l'appel de la fonction est terminé
+      this.setState({ loading: false })
+      window.location.reload()
     })
-    .once('receipt', function(receipt){ console.log(receipt) })
-    .on('confirmation', function(confNumber, receipt){ console.log(confNumber);console.log(receipt) })
     .on('error', () => {
       window.alert("Vous avez refusé la transaction !")
       window.location.reload()
-    }).then(function(receipt){
-        // will be fired once the receipt is mined
-        console.log(receipt)
-    });
+    })
   }
 
   purchaseRealEstate(id, price) {
     this.setState({ loading: true })
     this.state.marketplace.methods.purchaseRealEstate(id).send({ from: this.state.account, value: price })
-      .once('receipt', () => {
+      .once('receipt', (receipt) => {
         // pour que l'utilisateur sache que l'appel de la fonction est terminé
         this.setState({ loading: false })
         window.location.reload()
@@ -125,8 +120,6 @@ class App extends Component {
         window.location.reload()
       }
       )
-      .on('confirmation', ()=>{
-      })
   }
 
   render() {
@@ -134,42 +127,64 @@ class App extends Component {
       <div>
         {
           this.state.account === undefined ? <>
-            <p>veuillez vous connecter</p>
+              <div class="outer">
+                <div class="middle">
+                  <div class="inner">
+                    <div class="alert alert-success" role="alert">
+                      <h4 class="alert-heading">Vous n'êtes pas connecté</h4>
+                      <p>Veuillez vous connecter à Metamask pour acceder à cet espace</p>
+                    </div>
+                  </div>
+                </div>
+              </div> 
           </>
             :
             <>
               {
                 this.state.loading ? <>
-                  <p>LOADING</p>
+                  <div class="outer">
+                    <div class="middle">
+                      <div class="inner">
+                        <div class="spinner-border text-info loading" role="status">
+                          <span class="visually-hidden"></span>
+                        </div>
+                          <h4 class="alert-heading">Chargement</h4>
+                      </div>
+                    </div>
+                  </div>
                 </>
                   : <>
                     <BrowserRouter>
                       <Navbar account={this.state.account} />
-                      <Switch>
-                        <Route exact path="/">
-                          <div className="container mt-5">
-                            <div className="row">
-                              <main role="main" className="col-lg-12 d-flex">
-                                <Products array={this.state.availableProducts} purchaseRealEstate={this.purchaseRealEstate} parentProps={this.state} />
-                              </main>
+                      <div className="Main-Section">
+                        <Switch>
+                          <Route exact path="/">
+                            <div className="container">
+                              <h1 class="display-5">Bien à vendre</h1>
+
+                              <div className="row row-cols-4">
+                                  <Products array={this.state.availableProducts} purchaseRealEstate={this.purchaseRealEstate} parentProps={this.state} />
+                              </div>
                             </div>
-                          </div>
-                        </Route>
-                        <Route exact path="/add">
-                        <div className="container mt-5">
-                          <Form createRealEstate={this.createRealEstate} account={this.state.account}/>
-                          </div>
-                        </Route>
-                        <Route exact path="/profile">
+                          </Route>
+                          <Route exact path="/add">
                           <div className="container mt-5">
-                            <div className="row">
-                              <main role="main" className="col-lg-12 d-flex">
-                                <UserProducts array={this.state.ownedProducts} />
-                              </main>
+                            <h2>Mettre un bien en vente</h2>
+                            <Form createRealEstate={this.createRealEstate} account={this.state.account}/>
                             </div>
-                          </div>
-                        </Route>
-                      </Switch>
+                          </Route>
+                          <Route exact path="/profile">
+                            <div className="container mt-5">
+                              <h2>Bien en votre possessions</h2>
+                              <div className="row">
+                                <main role="main" className="col-lg-12 d-flex">
+                                  <UserProducts array={this.state.ownedProducts} />
+                                </main>
+                              </div>
+                            </div>
+                          </Route>
+                        </Switch>
+                      </div>
                     </BrowserRouter>
                   </>
               }

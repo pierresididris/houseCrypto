@@ -9,7 +9,6 @@ const Navbar = ({account}) => {
       aria-label="main navigation"
     >
       <div className="container">
-        <div className="row">
           <div className="navbar-brand">
             <a
               role="button"
@@ -25,27 +24,30 @@ const Navbar = ({account}) => {
           </div>
 
           <div className={`navbar-menu ${isOpen && "is-active"}`}>
-            <div className="navbar-start">
-              <NavLink className="navbar-item" activeClassName="is-active" to="/">
-                <p className="navbar-brand col-sm-0 col-md-0 mr-0">
+            <div className="navbar-start ">
+            <div className="row">
+              
+              <NavLink className="navbar-item col-sm-3 col-md-3 mr-0" activeClassName="is-active" to="/">
+                <p className="navbar-brand ">
                   Marketplace Immobilière
                 </p>
               </NavLink>
               
-              <NavLink className="navbar-item" activeClassName="is-active" to="/add">
-                <p className="navbar-brand col-sm-1 col-md-1 mr-0">
+              <NavLink className="navbar-item  col-sm-3 col-md-3 mr-0" activeClassName="is-active" to="/add">
+                <p className="navbar-brand">
                   Ajoutez votre bien 
                 </p>
               </NavLink>
               
-              <NavLink className="navbar-item" activeClassName="is-active"to="/profile">
-                  <p className="navbar-brand col-sm-4" id="account">
+              <NavLink className="navbar-item col-sm-5 col-md-5" activeClassName="is-active"to="/profile">
+                  <p className="navbar-brand btn btn-outline-info " id="account">
                                   {account}
                 </p>
               </NavLink>
+              </div>
+
             </div>
           </div>
-        </div>
       </div>
     </nav>
   );
