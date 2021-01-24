@@ -77,9 +77,9 @@ body {
 /* end of loading page */
 
 /* PRODUCT CREATION */
-/* .create-product-form, main{
-  margin-top: 40;
-} */
+.create-product-form{
+  padding-bottom: 40px;
+}
 /* end of product creation */
 
 

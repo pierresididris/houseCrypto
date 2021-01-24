@@ -24,15 +24,34 @@ const ProductDetails = (props) => {
         </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-            <p>Nom du bien</p>
-            <p>{props.product.name}</p>
-            <p>Vendu par {props.product.owner}</p>
-            <p>{Web3.utils.fromWei(props.product.price.toString(), 'Ether')} Eth</p>
-            <span>{props.product.description}</span>
-            <b><p>Surface : </p>{props.product.area}</b>
-            <b><p>Nombre de piece : </p>{props.product.area}</b>
-            <b><p>Adresse : </p>{props.product.realEstateAddress}</b>
-            <p>Produit mis en vente depuis le {props.product.sellingDate}</p>
+                <dl class="row">
+                    <dt class="col-sm-3">Nom du bien</dt>
+                    <dd class="col-sm-9">{props.product.name}</dd>
+
+                    <dt class="col-sm-3">Vendu par</dt>
+                    <dd class="col-sm-9">{props.product.owner}</dd>
+
+                    <dt class="col-sm-3">Prix</dt>
+                    <dd class="col-sm-9">{Web3.utils.fromWei(props.product.price.toString(), 'Ether')} Eth</dd>
+
+                    <dt class="col-sm-3">Description</dt>
+                    <dd class="col-sm-9">{props.product.description}</dd>
+
+                    <dt class="col-sm-3">Surface</dt>
+                    <dd class="col-sm-9">{props.product.area} m²</dd>
+
+                    <dt class="col-sm-3">Nombre de piece</dt>
+                    <dd class="col-sm-9">{props.product.nbroom}</dd>
+
+                    <dt class="col-sm-3">Adresse</dt>
+                    <dd class="col-sm-9">{props.product.realEstateAddress}</dd>
+
+                    <dt class="col-sm-3">mis en vente depuis le</dt>
+                    <dd class="col-sm-9">{props.product.sellingDate}</dd>
+
+                    
+                    </dl>
+
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={props.onHide}>Fermer</Button>
@@ -48,7 +67,7 @@ const ProductDetails = (props) => {
         const desc = props.product.description
         const nbR = props.product.nbroom
         const sellingDate = currentDate
-        props.createRealEstate(n, p, t, ad, ar, desc, nbR, sellingDate, props.account)
+        // props.createRealEstate(n, p, t, ad, ar, desc, nbR, sellingDate, props.account)
       }}>
         {/* <input
             id="productPrice"

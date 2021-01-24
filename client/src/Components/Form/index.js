@@ -29,15 +29,16 @@ const Form = ({name, price, type, adress, area, description, nbRoom, createRealE
         var sellingDate = currentDate
         createRealEstate(n, p, t, ad, ar, desc, nbR, sellingDate, marketplace, account)
       }}>
+        <label for="productName">Nom du bien</label>
         <div className="form-group mr-sm-2">
           <input
             id="productName"
             type="text"
             ref={(input) => { name = input }}
             className="form-control"
-            placeholder="Nom du bien"
             required />
         </div>
+        <label for="productPrice">Prix du bien</label>
         <div className="form-group mr-sm-2">
           <input
             id="productPrice"
@@ -45,53 +46,54 @@ const Form = ({name, price, type, adress, area, description, nbRoom, createRealE
             step="0.01"
             ref={(input) => { price = input }}
             className="form-control"
-            placeholder="Prix du bien"
             required />
         </div>
+        <label for="select">Type de bien</label>
+        <div className="form-group mr-sm-2">
+            <select className="form-control form-select" aria-label="Default select example" name="Select" id="select" ref={(input) => { type = input }} required>
+              <option value="Residence">Residence</option>
+              <option value="Maison">Maison</option>
+              <option value="Terrain">Terrain</option>
+              <option value="Appartement">Appartement</option>
+              <option value="Autre">Autre</option>
+          </select>
+        </div>
+        <label for="productAddress">Adresse du bien</label>
         <div className="form-group mr-sm-2">
           <input
             id="productAddress"
             type="text"
             ref={(input) => { adress = input }}
             className="form-control"
-            placeholder="Adresse du bien"
             required />
         </div>
+        <label for="productArea">Surface</label>
         <div className="form-group mr-sm-2">
           <input
             id="productArea"
             type="number"
             ref={(input) => { area = input }}
             className="form-control"
-            placeholder="surface"
             required />
         </div>
+        <label for="productDescription">Description</label>
         <div className="form-group mr-sm-2">
           <input
             id="productDescription"
             type="text"
             ref={(input) => { description = input }}
             className="form-control"
-            placeholder="description"
             required />
         </div>
+        <label for="productNbRoom">Nombre de piece</label>
         <div className="form-group mr-sm-2">
           <input
             id="productNbRoom"
             type="number"
             ref={(input) => { nbRoom = input }}
             className="form-control"
-            placeholder="Nombre de piece"
+            defaultValue="1"
             required />
-        </div>
-        <div className="form-group mr-sm-2">
-        <select name="Select" id="select" ref={(input) => { type = input }}>
-    <option value="Residence">Residence</option>
-    <option value="Maison">Maison</option>
-    <option value="Terrain">Terrain</option>
-    <option value="Appartement">Appartement</option>
-    <option value="Autre">Autre</option>
-</select>
         </div>
         <button type="submit" className="btn btn-primary">Ajouter un bien</button>
       </form>
