@@ -181,10 +181,16 @@ class App extends Component {
                           </Route>
                           <Route exact path="/profile">
                             <div className="container mt-5">
-                              <h2>Biens en votre possessions</h2>
+                              <h2>Biens achetés</h2>
                               <div className="row">
                                 <main role="main" className="col-lg-12 d-flex">
-                                  <UserProducts array={this.state.ownedProducts} createRealEstate={this.createRealEstate} account={this.state.account} marketplace={this.state.marketplace}/>
+                                  <UserProducts array={this.state.ownedProducts} createRealEstate={this.createRealEstate} account={this.state.account} marketplace={this.state.marketplace} type={"acheté"} type2={"achetiez quelque chose"}/>
+                                </main>
+                              </div>
+                              <h3>Biens à vendre</h3>
+                              <div className="row">
+                                <main role="main" className="col-lg-12 d-flex">
+                                  <UserProducts array={this.state.unsoldProducts} createRealEstate={this.createRealEstate} account={this.state.account} marketplace={this.state.marketplace} type={"mis en vente"} type2={"mettiez en vente"}/>
                                 </main>
                               </div>
                             </div>

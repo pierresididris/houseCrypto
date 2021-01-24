@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Web3 from 'web3'
 
 const map = new Map()
@@ -16,6 +16,10 @@ const year = dateObj.getUTCFullYear();
 const currentDate = day + "/" + month + "/" + year 
 
 const Form = ({name, price, type, adress, area, description, nbRoom, createRealEstate, marketplace, account}) => {
+  const [realEstateType, setRealEstateType] = useState(1)
+  const onChangeHandler = (event) => {
+    setRealEstateType(map.get(event.target.value))
+  }
     return(
     <form className="create-product-form" onSubmit={(event) => {
         event.preventDefault()
@@ -25,7 +29,7 @@ const Form = ({name, price, type, adress, area, description, nbRoom, createRealE
         const ad = adress.value
         const ar = area.value
         const desc = description.value
-        const nbR = nbRoom.value
+        const nbR = map.get(type.value) === 3 ? 1 : nbRoom.value
         var sellingDate = currentDate
         createRealEstate(n, p, t, ad, ar, desc, nbR, sellingDate, marketplace, account)
       }}>
@@ -50,7 +54,7 @@ const Form = ({name, price, type, adress, area, description, nbRoom, createRealE
         </div>
         <label for="select">Type de bien</label>
         <div className="form-group mr-sm-2">
-            <select className="form-control form-select" aria-label="Default select example" name="Select" id="select" ref={(input) => { type = input }} required>
+            <select onChange={onChangeHandler}className="form-control form-select" aria-label="Default select example" name="Select" id="select" ref={(input) => { type = input }} required>
               <option value="Residence">Residence</option>
               <option value="Maison">Maison</option>
               <option value="Terrain">Terrain</option>
@@ -85,8 +89,10 @@ const Form = ({name, price, type, adress, area, description, nbRoom, createRealE
             className="form-control"
             required />
         </div>
-        <label for="productNbRoom">Nombre de piece</label>
-        <div className="form-group mr-sm-2">
+        {realEstateType=== 3 ? <></> : 
+        <>        
+        <label for="productNbRoom">Nombre de pieces</label>
+       <div className="form-group mr-sm-2">
           <input
             id="productNbRoom"
             type="number"
@@ -94,7 +100,7 @@ const Form = ({name, price, type, adress, area, description, nbRoom, createRealE
             className="form-control"
             defaultValue="1"
             required />
-        </div>
+        </div></>}
         <button type="submit" className="btn btn-primary">Ajouter un bien</button>
       </form>
     )
