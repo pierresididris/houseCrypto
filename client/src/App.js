@@ -27,7 +27,7 @@ class App extends Component {
   componentWillMount() {
     window.ethereum.on('accountsChanged', function () {
       console.log("changement de compte")
-      // window.location.reload()
+      window.location.reload()
     })
     this.loadBlockchainData()
   }
@@ -47,26 +47,26 @@ class App extends Component {
       if (networkData) {
         const marketplace = new window.web3.eth.Contract(Marketplace.abi, networkData.address)
         this.setState({ marketplace })
-        const productCount = await marketplace.methods.productCount().call()
-        this.setState({ productCount })
-        for (var i = 1; i <= productCount; i++) {
-          const availableProduct = await marketplace.methods.products(i).call()
+        const realEstateCount = await marketplace.methods.realEstateCount().call()
+        this.setState({ realEstateCount })
+        for (var i = 1; i <= realEstateCount; i++) {
+          const availableProduct = await marketplace.methods.realEstates(i).call()
           if (!availableProduct.purchased && availableProduct.owner !== this.state.account) {
             this.setState({
               availableProducts: [...this.state.availableProducts, availableProduct]
             })
           }
         }
-        for (var j = 1; j <= productCount; j++) {
-          const ownedProduct = await marketplace.methods.products(j).call()
+        for (var j = 1; j <= realEstateCount; j++) {
+          const ownedProduct = await marketplace.methods.realEstates(j).call()
           if (ownedProduct.purchased && ownedProduct.owner === this.state.account) {
             this.setState({
               ownedProducts: [...this.state.ownedProducts, ownedProduct]
             })
           }
         }
-        for (var j = 1; j <= productCount; j++) {
-          const unsoldProduct = await marketplace.methods.products(j).call()
+        for (var j = 1; j <= realEstateCount; j++) {
+          const unsoldProduct = await marketplace.methods.realEstates(j).call()
           if (!unsoldProduct.purchased && unsoldProduct.owner === this.state.account) {
             this.setState({
               unsoldProducts: [...this.state.unsoldProducts, unsoldProduct]
@@ -87,7 +87,7 @@ class App extends Component {
     super(props)
     this.state = {
       account: '',
-      productCount: 0,
+      realEstateCount: 0,
       availableProducts: [],
       ownedProducts: [],
       unsoldProducts: [],

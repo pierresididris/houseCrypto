@@ -8,7 +8,7 @@ const Product = ({product, purchaseRealEstate, parentProps, resell, createRealEs
   return(
     <div class="col-6 col-md-3 product-content">
      <div className="card product-grid6 h-70">
-             <img className="img-fluid card-img-top" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-1.jpg"></img>
+             <img className="img-fluid card-img-top" src="http://www.freeimageslive.com/galleries/buildings/city/preview/terraced_houses_manchester_298792.jpg"></img>
          <div className="card-body product-content">
            <h5 className="card-title">{product.name}</h5>
            <p className="card-text">{product.description}</p>
