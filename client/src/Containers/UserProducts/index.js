@@ -1,13 +1,14 @@
 import React from 'react';
 import { Product } from '../../Components'
 
-const UserProducts = ({array, createRealEstate, account, marketplace}) => {
+const UserProducts = ({array, createRealEstate, account, marketplace, type, type2}) => {
     return(
     <>
     {
-        array.length === 0 ? 
+        array.length === 0 ?
         <>
-            <p>Vous n'avez encore rien acheté, et si vous achetiez quelque chose ?</p>
+            <p>Vous n'avez encore rien {type}, et si vous {type2}?</p>
+            {/* //<p>Vous n'avez encore rien acheté ou mis en vente, et si vous achetiez quelque chose ou mettiez en vente?</p> */}
         </>
         :
         array.map((product)=>{
